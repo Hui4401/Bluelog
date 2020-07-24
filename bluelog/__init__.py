@@ -1,10 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-    :author: Grey Li (李辉)
-    :url: http://greyli.com
-    :copyright: © 2018 Grey Li <withlihui@gmail.com>
-    :license: MIT, see LICENSE for more details.
-"""
 import logging
 import os
 from logging.handlers import SMTPHandler, RotatingFileHandler
@@ -20,7 +13,7 @@ from bluelog.blueprints.auth import auth_bp
 from bluelog.blueprints.blog import blog_bp
 from bluelog.extensions import bootstrap, db, login_manager, csrf, ckeditor, mail, moment, toolbar, migrate
 from bluelog.models import Admin, Post, Category, Comment, Link
-from bluelog.settings import config
+from bluelog.configs import config
 
 basedir = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 

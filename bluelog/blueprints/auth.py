@@ -1,16 +1,10 @@
-# -*- coding: utf-8 -*-
-"""
-    :author: Grey Li (李辉)
-    :url: http://greyli.com
-    :copyright: © 2018 Grey Li <withlihui@gmail.com>
-    :license: MIT, see LICENSE for more details.
-"""
 from flask import render_template, flash, redirect, url_for, Blueprint
 from flask_login import login_user, logout_user, login_required, current_user
 
 from bluelog.forms import LoginForm
 from bluelog.models import Admin
 from bluelog.utils import redirect_back
+
 
 auth_bp = Blueprint('auth', __name__)
 
