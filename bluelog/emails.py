@@ -1,12 +1,4 @@
-# -*- coding: utf-8 -*-
-"""
-    :author: Grey Li (李辉)
-    :url: http://greyli.com
-    :copyright: © 2018 Grey Li <withlihui@gmail.com>
-    :license: MIT, see LICENSE for more details.
-"""
 from threading import Thread
-
 from flask import url_for, current_app
 from flask_mail import Message
 
@@ -28,17 +20,15 @@ def send_mail(subject, to, html):
 
 def send_new_comment_email(post):
     post_url = url_for('blog.show_post', post_id=post.id, _external=True) + '#comments'
-    send_mail(subject='New comment', to=current_app.config['BLUELOG_EMAIL'],
-              html='<p>New comment in post <i>%s</i>, click the link below to check:</p>'
-                   '<p><a href="%s">%s</a></P>'
-                   '<p><small style="color: #868e96">Do not reply this email.</small></p>'
-                   % (post.title, post_url, post_url))
+    send_mail(subject='新评论', to=current_app.config['BLUELOG_EMAIL'],
+              html=f'<p>文章 <i>{post.title}</i> 有新的评论, 点击链接查看: </p>'
+                   '<p><a href="{post_url}">{post_url}</a></P>'
+                   '<p><small style="color: #868e96">不要回复此邮件</small></p>')
 
 
 def send_new_reply_email(comment):
     post_url = url_for('blog.show_post', post_id=comment.post_id, _external=True) + '#comments'
-    send_mail(subject='New reply', to=comment.email,
-              html='<p>New reply for the comment you left in post <i>%s</i>, click the link below to check: </p>'
-                   '<p><a href="%s">%s</a></p>'
-                   '<p><small style="color: #868e96">Do not reply this email.</small></p>'
-                   % (comment.post.title, post_url, post_url))
+    send_mail(subject='新回复', to=comment.email,
+              html='<p>你对文章 <i>{comment.post.title}</i> 的评论有新回复, 点击链接查看: </p>'
+                   '<p><a href="{post_url}">{post_url}</a></p>'
+                   '<p><small style="color: #868e96">不要回复此邮件</small></p>')

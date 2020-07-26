@@ -1,12 +1,4 @@
-# -*- coding: utf-8 -*-
-"""
-    :author: Grey Li (李辉)
-    :url: http://greyli.com
-    :copyright: © 2018 Grey Li <withlihui@gmail.com>
-    :license: MIT, see LICENSE for more details.
-"""
 from datetime import datetime
-
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -29,6 +21,7 @@ class Admin(db.Model, UserMixin):
         return check_password_hash(self.password_hash, password)
 
 
+# 分类，与文章是一对多关系
 class Category(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(30), unique=True)
@@ -44,6 +37,7 @@ class Category(db.Model):
         db.session.commit()
 
 
+# 文章
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(60))
@@ -52,8 +46,8 @@ class Post(db.Model):
     can_comment = db.Column(db.Boolean, default=True)
 
     category_id = db.Column(db.Integer, db.ForeignKey('category.id'))
-
     category = db.relationship('Category', back_populates='posts')
+
     comments = db.relationship('Comment', back_populates='post', cascade='all, delete-orphan')
 
 
@@ -67,15 +61,13 @@ class Comment(db.Model):
     reviewed = db.Column(db.Boolean, default=False)
     timestamp = db.Column(db.DateTime, default=datetime.utcnow, index=True)
 
-    replied_id = db.Column(db.Integer, db.ForeignKey('comment.id'))
     post_id = db.Column(db.Integer, db.ForeignKey('post.id'))
-
     post = db.relationship('Post', back_populates='comments')
+
+    # 在评论模型内建立层级关系，称为邻接列表关系
+    replied_id = db.Column(db.Integer, db.ForeignKey('comment.id'))
     replies = db.relationship('Comment', back_populates='replied', cascade='all, delete-orphan')
     replied = db.relationship('Comment', back_populates='replies', remote_side=[id])
-    # Same with:
-    # replies = db.relationship('Comment', backref=db.backref('replied', remote_side=[id]),
-    # cascade='all,delete-orphan')
 
 
 class Link(db.Model):

@@ -1,36 +1,29 @@
-# -*- coding: utf-8 -*-
-"""
-    :author: Grey Li (李辉)
-    :url: http://greyli.com
-    :copyright: © 2018 Grey Li <withlihui@gmail.com>
-    :license: MIT, see LICENSE for more details.
-"""
 import random
-
 from faker import Faker
 from sqlalchemy.exc import IntegrityError
 
 from bluelog.extensions import db
 from bluelog.models import Admin, Category, Post, Comment, Link
 
-fake = Faker()
+
+fake = Faker('zh-CN')
 
 
 def fake_admin():
     admin = Admin(
         username='admin',
-        blog_title='Bluelog',
-        blog_sub_title="No, I'm the real thing.",
-        name='Mima Kirigoe',
-        about='Um, l, Mima Kirigoe, had a fun time as a member of CHAM...'
+        blog_title='Assassin的博客',
+        blog_sub_title="天涯路远，见字如面",
+        name='Assassin',
+        about='待续...'
     )
-    admin.set_password('helloflask')
+    admin.set_password('admin')
     db.session.add(admin)
     db.session.commit()
 
 
 def fake_categories(count=10):
-    category = Category(name='Default')
+    category = Category(name='默认分类')
     db.session.add(category)
 
     for i in range(count):
@@ -50,7 +43,6 @@ def fake_posts(count=50):
             category=Category.query.get(random.randint(1, Category.query.count())),
             timestamp=fake.date_time_this_year()
         )
-
         db.session.add(post)
     db.session.commit()
 
@@ -69,8 +61,9 @@ def fake_comments(count=500):
         db.session.add(comment)
 
     salt = int(count * 0.1)
+
     for i in range(salt):
-        # unreviewed comments
+        # 未审核评论
         comment = Comment(
             author=fake.name(),
             email=fake.email(),
@@ -82,7 +75,7 @@ def fake_comments(count=500):
         )
         db.session.add(comment)
 
-        # from admin
+        # 管理员评论
         comment = Comment(
             author='Mima Kirigoe',
             email='mima@example.com',
@@ -96,7 +89,7 @@ def fake_comments(count=500):
         db.session.add(comment)
     db.session.commit()
 
-    # replies
+    # 已审核评论
     for i in range(salt):
         comment = Comment(
             author=fake.name(),
@@ -113,9 +106,7 @@ def fake_comments(count=500):
 
 
 def fake_links():
-    twitter = Link(name='Twitter', url='#')
-    facebook = Link(name='Facebook', url='#')
-    linkedin = Link(name='LinkedIn', url='#')
-    google = Link(name='Google+', url='#')
-    db.session.add_all([twitter, facebook, linkedin, google])
+    github = Link(name='GitHub', url='#')
+    email = Link(name='邮箱', url='#')
+    db.session.add_all([github, email])
     db.session.commit()
