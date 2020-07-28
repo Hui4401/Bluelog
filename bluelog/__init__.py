@@ -10,7 +10,7 @@ from flask_wtf.csrf import CSRFError
 from bluelog.blueprints.admin import admin_bp
 from bluelog.blueprints.auth import auth_bp
 from bluelog.blueprints.blog import blog_bp
-from bluelog.extensions import bootstrap, db, login_manager, csrf, ckeditor, mail, moment, toolbar, migrate
+from bluelog.extensions import bootstrap, db, login_manager, csrf, ckeditor, mail, moment, toolbar
 from bluelog.models import Admin, Post, Category, Comment, Link
 from bluelog.configs import config
 
@@ -79,7 +79,6 @@ def register_extensions(app):
     mail.init_app(app)
     moment.init_app(app)
     toolbar.init_app(app)
-    migrate.init_app(app, db)
 
 
 def register_blueprints(app):
@@ -147,10 +146,10 @@ def register_commands(app):
         click.echo('创建管理员账户中...')
         admin = Admin(
             username=username,
-            blog_title='Admin的博客',
-            blog_sub_title='天涯路远，见字如面',
-            name='Admin',
-            about='待续...'
+            blog_title=f'{username}的博客',
+            blog_sub_title=username,
+            name=username,
+            about=username
         )
         admin.set_password(password)
         db.session.add(admin)

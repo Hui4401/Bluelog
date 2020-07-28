@@ -1,5 +1,5 @@
 import os
-from flask import render_template, flash, redirect, url_for, request, current_app, Blueprint, send_from_directory
+from flask import render_template, flash, redirect, url_for, request, current_app, Blueprint, send_from_directory, make_response
 from flask_login import login_required, current_user
 from flask_ckeditor import upload_success, upload_fail
 
@@ -247,3 +247,12 @@ def upload_image():
     f.save(os.path.join(current_app.config['BLUELOG_UPLOAD_PATH'], f.filename))
     url = url_for('.get_image', filename=f.filename)
     return upload_success(url, f.filename)
+
+
+@admin_bp.route('/change-theme/<theme_name>/')
+def change_theme(theme_name):
+    if theme_name not in current_app.config['BLUELOG_THEMES'].keys():
+        abort(404)
+
+    current_app.config['BLUELOG_THEME'] = theme_name
+    return redirect_back()

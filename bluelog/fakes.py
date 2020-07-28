@@ -12,10 +12,10 @@ fake = Faker('zh-CN')
 def fake_admin():
     admin = Admin(
         username='admin',
-        blog_title='Assassin的博客',
-        blog_sub_title="天涯路远，见字如面",
-        name='Assassin',
-        about='待续...'
+        blog_title='admin的博客',
+        blog_sub_title="admin",
+        name='admin',
+        about='admin'
     )
     admin.set_password('admin')
     db.session.add(admin)

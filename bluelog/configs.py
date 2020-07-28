@@ -20,6 +20,8 @@ class BaseConfig:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_RECORD_QUERIES = True
 
+    CKEDITOR_SERVE_LOCAL = True
+    CKEDITOR_LANGUAGE = 'zh-cn'
     CKEDITOR_ENABLE_CSRF = True
     CKEDITOR_FILE_UPLOADER = 'admin.upload_image'
 
@@ -35,8 +37,12 @@ class BaseConfig:
     BLUELOG_MANAGE_POST_PER_PAGE = 15
     BLUELOG_COMMENT_PER_PAGE = 15
 
-    # ('theme name', 'display name')
-    BLUELOG_THEMES = {'perfect_blue': 'Perfect Blue', 'black_swan': 'Black Swan'}
+    # ('主题名', '主题文件名')
+    BLUELOG_THEMES = {
+        'Perfect Blue': 'perfect_blue', 
+        'Black Swan': 'black_swan'
+    }
+    BLUELOG_THEME = list(BLUELOG_THEMES.keys())[0]
     BLUELOG_SLOW_QUERY_THRESHOLD = 1
 
     BLUELOG_UPLOAD_PATH = os.path.join(basedir, 'uploads')
