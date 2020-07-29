@@ -42,11 +42,7 @@
                     <td>{{ loop.index + ((pagination.page - 1) * config['BLUELOG_COMMENT_PER_PAGE']) }}</td>
                     <td>
                         {% if comment.from_admin %}{{ admin.name }}{% else %}{{ comment.author }}{% endif %}<br>
-                        {% if comment.site %}
-                            <a href="{{ comment.site }}" target="_blank">
-                                {{ comment.site }}
-                            </a><br>
-                        {% endif %}
+                        
                         <a href="mailto:{{ comment.email }}">{{ comment.email }}</a>
 
                         {% if comment.from_admin %}

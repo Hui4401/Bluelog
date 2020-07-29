@@ -40,7 +40,7 @@ def show_post(post_id):
     post = Post.query.get_or_404(post_id)
     page = request.args.get('page', 1, type=int)
     per_page = current_app.config['BLUELOG_COMMENT_PER_PAGE']
-    pagination = Comment.query.with_parent(post).filter_by(reviewed=True).order_by(Comment.timestamp.asc()).paginate(
+    pagination = Comment.query.with_parent(post).filter_by(reviewed=True).order_by(Comment.timestamp.desc()).paginate(
         page, per_page)
     comments = pagination.items
 
@@ -48,7 +48,6 @@ def show_post(post_id):
         form = AdminCommentForm()
         form.author.data = current_user.name
         form.email.data = current_app.config['BLUELOG_EMAIL']
-        form.site.data = url_for('.index')
         from_admin = True
         reviewed = True
     else:
@@ -59,10 +58,9 @@ def show_post(post_id):
     if form.validate_on_submit():
         author = form.author.data
         email = form.email.data
-        site = form.site.data
         body = form.body.data
         comment = Comment(
-            author=author, email=email, site=site, body=body,
+            author=author, email=email, body=body,
             from_admin=from_admin, post=post, reviewed=reviewed)
         replied_id = request.args.get('reply')
         if replied_id:

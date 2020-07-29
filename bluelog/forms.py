@@ -46,7 +46,6 @@ class CategoryForm(FlaskForm):
 class CommentForm(FlaskForm):
     author = StringField('姓名', validators=[DataRequired(), Length(1, 30)])
     email = StringField('邮箱', validators=[DataRequired(), Email(), Length(1, 254)])
-    site = StringField('站点', validators=[Optional(), URL(), Length(0, 255)])
     body = TextAreaField('评论', validators=[DataRequired()])
     submit = SubmitField('提交')
 
@@ -54,7 +53,6 @@ class CommentForm(FlaskForm):
 class AdminCommentForm(CommentForm):
     author = HiddenField()
     email = HiddenField()
-    site = HiddenField()
 
 
 class LinkForm(FlaskForm):
