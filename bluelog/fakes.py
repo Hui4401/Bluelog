@@ -54,50 +54,36 @@ def fake_comments(count=500):
             email=fake.email(),
             body=fake.sentence(),
             timestamp=fake.date_time_this_year(),
-            reviewed=True,
+            read=True,
             post=Post.query.get(random.randint(1, Post.query.count()))
         )
         db.session.add(comment)
 
     salt = int(count * 0.1)
-
     for i in range(salt):
-        # 未审核评论
+        # 未读评论
         comment = Comment(
             author=fake.name(),
             email=fake.email(),
             body=fake.sentence(),
             timestamp=fake.date_time_this_year(),
-            reviewed=False,
+            read=False,
             post=Post.query.get(random.randint(1, Post.query.count()))
         )
         db.session.add(comment)
 
         # 管理员评论
         comment = Comment(
-            author='Mima Kirigoe',
-            email='mima@example.com',
+            author='',
+            email='',
             body=fake.sentence(),
             timestamp=fake.date_time_this_year(),
             from_admin=True,
-            reviewed=True,
+            read=True,
             post=Post.query.get(random.randint(1, Post.query.count()))
         )
         db.session.add(comment)
-    db.session.commit()
 
-    # 已审核评论
-    for i in range(salt):
-        comment = Comment(
-            author=fake.name(),
-            email=fake.email(),
-            body=fake.sentence(),
-            timestamp=fake.date_time_this_year(),
-            reviewed=True,
-            replied=Comment.query.get(random.randint(1, Comment.query.count())),
-            post=Post.query.get(random.randint(1, Post.query.count()))
-        )
-        db.session.add(comment)
     db.session.commit()
 
 

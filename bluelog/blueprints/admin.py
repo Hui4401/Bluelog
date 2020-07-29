@@ -102,11 +102,11 @@ def set_comment(post_id):
 @admin_bp.route('/comment/manage/')
 @login_required
 def manage_comment():
-    filter_rule = request.args.get('filter', 'all')  # 'all', 'unreviewed', 'admin'
+    filter_rule = request.args.get('filter', 'unread')  # 'unread', 'all', 'admin'
     page = request.args.get('page', 1, type=int)
     per_page = current_app.config['BLUELOG_COMMENT_PER_PAGE']
     if filter_rule == 'unread':
-        filtered_comments = Comment.query.filter_by(reviewed=False)
+        filtered_comments = Comment.query.filter_by(read=False)
     elif filter_rule == 'admin':
         filtered_comments = Comment.query.filter_by(from_admin=True)
     else:
@@ -117,13 +117,12 @@ def manage_comment():
     return render_template('admin/manage_comment.html', comments=comments, pagination=pagination)
 
 
-@admin_bp.route('/comment/<int:comment_id>/approve/', methods=['POST'])
+@admin_bp.route('/comment/<int:comment_id>/read/', methods=['POST'])
 @login_required
-def approve_comment(comment_id):
+def read_comment(comment_id):
     comment = Comment.query.get_or_404(comment_id)
-    comment.reviewed = True
+    comment.read = True
     db.session.commit()
-    flash('评论审核通过', 'success')
     return redirect_back()
 
 

@@ -40,8 +40,7 @@ def show_post(post_id):
     post = Post.query.get_or_404(post_id)
     page = request.args.get('page', 1, type=int)
     per_page = current_app.config['BLUELOG_COMMENT_PER_PAGE']
-    pagination = Comment.query.with_parent(post).filter_by(reviewed=True).order_by(Comment.timestamp.desc()).paginate(
-        page, per_page)
+    pagination = Comment.query.with_parent(post).order_by(Comment.timestamp.desc()).paginate(page, per_page)
     comments = pagination.items
 
     if current_user.is_authenticated:
@@ -49,19 +48,17 @@ def show_post(post_id):
         form.author.data = current_user.name
         form.email.data = current_app.config['BLUELOG_EMAIL']
         from_admin = True
-        reviewed = True
+        read = True
     else:
         form = CommentForm()
         from_admin = False
-        reviewed = False
+        read = False
 
     if form.validate_on_submit():
         author = form.author.data
         email = form.email.data
         body = form.body.data
-        comment = Comment(
-            author=author, email=email, body=body,
-            from_admin=from_admin, post=post, reviewed=reviewed)
+        comment = Comment(author=author, email=email, body=body, from_admin=from_admin, post=post, read=read)
         replied_id = request.args.get('reply')
         if replied_id:
             replied_comment = Comment.query.get_or_404(replied_id)
@@ -69,11 +66,9 @@ def show_post(post_id):
             send_new_reply_email(replied_comment)
         db.session.add(comment)
         db.session.commit()
-        if current_user.is_authenticated:  # 管理员提交评论
-            flash('评论发表成功', 'success')
-        else:
-            flash('评论提交成功', 'info')
-            send_new_comment_email(post)  # 访客提交评论
+        flash('评论发表成功', 'success')
+        if not current_user.is_authenticated:  # 访客发表评论，通知管理员
+            send_new_comment_email(post)
         return redirect(url_for('.show_post', post_id=post_id))
     return render_template('blog/post.html', post=post, pagination=pagination, form=form, comments=comments)
 

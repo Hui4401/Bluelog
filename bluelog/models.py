@@ -57,7 +57,7 @@ class Comment(db.Model):
     email = db.Column(db.String(254))
     body = db.Column(db.Text)
     from_admin = db.Column(db.Boolean, default=False)
-    reviewed = db.Column(db.Boolean, default=False)
+    read = db.Column(db.Boolean, default=False)
     timestamp = db.Column(db.DateTime, default=datetime.utcnow, index=True)
 
     post_id = db.Column(db.Integer, db.ForeignKey('post.id'))
