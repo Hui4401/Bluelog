@@ -15,6 +15,7 @@ def fake_admin():
         blog_title='admin的博客',
         blog_sub_title="admin",
         name='admin',
+        email = '',
         about='admin'
     )
     admin.set_password('admin')
@@ -74,7 +75,7 @@ def fake_comments(count=500):
 
         # 管理员评论
         comment = Comment(
-            author='',
+            author='admin',
             email='',
             body=fake.sentence(),
             timestamp=fake.date_time_this_year(),

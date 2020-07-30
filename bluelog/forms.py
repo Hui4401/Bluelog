@@ -16,6 +16,7 @@ class LoginForm(FlaskForm):
 
 class SettingForm(FlaskForm):
     name = StringField('昵称', validators=[DataRequired(), Length(1, 30)])
+    email = StringField('邮箱', validators=[DataRequired(), Email(), Length(1, 254)])
     blog_title = StringField('博客标题', validators=[DataRequired(), Length(1, 60)])
     blog_sub_title = StringField('副标题', validators=[DataRequired(), Length(1, 100)])
     about = CKEditorField('自定义关于页面', validators=[DataRequired()])

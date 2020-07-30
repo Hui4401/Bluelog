@@ -18,6 +18,7 @@ def settings():
     form = SettingForm()
     if form.validate_on_submit():
         current_user.name = form.name.data
+        current_user.email = form.email.data
         current_user.blog_title = form.blog_title.data
         current_user.blog_sub_title = form.blog_sub_title.data
         current_user.about = form.about.data
@@ -25,6 +26,7 @@ def settings():
         flash('设置已更新', 'success')
         return redirect(url_for('blog.index'))
     form.name.data = current_user.name
+    form.email.data = current_user.email
     form.blog_title.data = current_user.blog_title
     form.blog_sub_title.data = current_user.blog_sub_title
     form.about.data = current_user.about
@@ -36,7 +38,7 @@ def settings():
 def manage_post():
     page = request.args.get('page', 1, type=int)
     pagination = Post.query.order_by(Post.timestamp.desc()).paginate(
-        page, per_page=current_app.config['BLUELOG_MANAGE_POST_PER_PAGE'])
+        page, per_page=current_app.config['BLOG_MANAGE_POST_PER_PAGE'])
     posts = pagination.items
     return render_template('admin/manage_post.html', page=page, pagination=pagination, posts=posts)
 
@@ -104,7 +106,7 @@ def set_comment(post_id):
 def manage_comment():
     filter_rule = request.args.get('filter', 'unread')  # 'unread', 'all', 'admin'
     page = request.args.get('page', 1, type=int)
-    per_page = current_app.config['BLUELOG_COMMENT_PER_PAGE']
+    per_page = current_app.config['BLOG_COMMENT_PER_PAGE']
     if filter_rule == 'unread':
         filtered_comments = Comment.query.filter_by(read=False)
     elif filter_rule == 'admin':
@@ -245,7 +247,7 @@ def delete_link(link_id):
 
 @admin_bp.route('/uploads/<path:filename>/')
 def get_image(filename):
-    return send_from_directory(current_app.config['BLUELOG_UPLOAD_PATH'], filename)
+    return send_from_directory(current_app.config['BLOG_UPLOAD_PATH'], filename)
 
 
 @admin_bp.route('/upload/', methods=['POST'])
@@ -253,15 +255,15 @@ def upload_image():
     f = request.files.get('upload')
     if not allowed_file(f.filename):
         return upload_fail('仅允许上传图片！')
-    f.save(os.path.join(current_app.config['BLUELOG_UPLOAD_PATH'], f.filename))
+    f.save(os.path.join(current_app.config['BLOG_UPLOAD_PATH'], f.filename))
     url = url_for('.get_image', filename=f.filename)
     return upload_success(url, f.filename)
 
 
 @admin_bp.route('/change-theme/<theme_name>/')
 def change_theme(theme_name):
-    if theme_name not in current_app.config['BLUELOG_THEMES'].keys():
+    if theme_name not in current_app.config['BLOG_THEMES'].keys():
         abort(404)
 
-    current_app.config['BLUELOG_THEME'] = theme_name
+    current_app.config['BLOG_THEME'] = theme_name
     return redirect_back()

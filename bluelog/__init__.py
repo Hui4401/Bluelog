@@ -160,7 +160,7 @@ def register_request_handlers(app):
     @app.after_request
     def query_profiler(response):
         for q in get_debug_queries():
-            if q.duration >= app.config['BLUELOG_SLOW_QUERY_THRESHOLD']:
+            if q.duration >= app.config['BLOG_SLOW_QUERY_THRESHOLD']:
                 app.logger.warning(
                     f'Slow query: Duration: {q.duration}\n Context: {q.context}\nQuery: {q.statement}\n'
                 )

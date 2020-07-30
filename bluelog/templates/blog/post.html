@@ -69,12 +69,7 @@
                             <li class="list-group-item list-group-item-action flex-column">
                                 <div class="d-flex w-100 justify-content-between">
                                     <h4 class="mb-1">
-                                        {% if comment.from_admin %}
-                                            {{ admin.name }}
-                                        {% else %}
-                                            {{ comment.author }}
-                                        {% endif %}
-
+                                        {{ comment.author }}
                                         {% if comment.from_admin %}
                                             <span class="badge badge-primary">管理员</span>{% endif %}
                                         {% if comment.replied %}<span class="badge badge-light">回复</span>{% endif %}
