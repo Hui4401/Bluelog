@@ -20,15 +20,19 @@ def send_mail(subject, to, html):
 
 def send_new_comment_email(post):
     post_url = url_for('blog.show_post', post_id=post.id, _external=True) + '#comments'
-    send_mail(subject='新评论', to=current_app.config['BLUELOG_EMAIL'],
-              html=f'<p>文章 <i>{post.title}</i> 有新的评论, 点击链接查看: </p>'
-                   '<p><a href="{post_url}">{post_url}</a></P>'
-                   '<p><small style="color: #868e96">不要回复此邮件</small></p>')
+    body = f'''
+                <p>文章 <i>《{post.title}》</i> 有新的评论, 点击链接查看：</p>
+                <p><a href="{post_url}">{post_url}</a></P>
+                <p><small style="color: #868e96">不要回复此邮件</small></p>
+            '''
+    send_mail(subject='新评论', to=current_app.config['BLUELOG_EMAIL'], html=body)
 
 
 def send_new_reply_email(comment):
     post_url = url_for('blog.show_post', post_id=comment.post_id, _external=True) + '#comments'
-    send_mail(subject='新回复', to=comment.email,
-              html='<p>你对文章 <i>{comment.post.title}</i> 的评论有新回复, 点击链接查看: </p>'
-                   '<p><a href="{post_url}">{post_url}</a></p>'
-                   '<p><small style="color: #868e96">不要回复此邮件</small></p>')
+    body = f'''
+                <p>你对文章 <i>《{comment.post.title}》</i> 的评论有新回复, 点击链接查看：</p>
+                <p><a href="{post_url}">{post_url}</a></p>
+                <p><small style="color: #868e96">不要回复此邮件</small></p>
+            '''
+    send_mail(subject='新回复', to=comment.email, html=body)

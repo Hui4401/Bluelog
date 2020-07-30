@@ -4,7 +4,7 @@ import sys
 
 basedir = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 
-# SQLite URI compatible
+# SQLite
 WIN = sys.platform.startswith('win')
 if WIN:
     prefix = 'sqlite:///'
@@ -14,7 +14,7 @@ else:
 
 class BaseConfig:
     SECRET_KEY = os.getenv('SECRET_KEY', 'dev key')
-
+    
     DEBUG_TB_INTERCEPT_REDIRECTS = False
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False

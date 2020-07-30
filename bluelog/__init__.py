@@ -22,6 +22,8 @@ def create_app(config_name=None):
 
     app = Flask('bluelog')
     app.config.from_object(config[config_name])
+    app.jinja_env.trim_blocks = True
+    app.jinja_env.lstrip_blocks = True
 
     register_extensions(app)
     register_blueprints(app)
@@ -30,6 +32,7 @@ def create_app(config_name=None):
     register_shell_context(app)
     register_template_context(app)
     register_request_handlers(app)
+    
     return app
 
 

@@ -117,6 +117,16 @@ def manage_comment():
     return render_template('admin/manage_comment.html', comments=comments, pagination=pagination)
 
 
+@admin_bp.route('/comment/readall/', methods=['POST'])
+@login_required
+def read_all_comment():
+    unread_comments = Comment.query.filter_by(read=False)
+    for comment in unread_comments:
+        comment.read = True
+    db.session.commit()
+    return redirect_back()
+
+
 @admin_bp.route('/comment/<int:comment_id>/read/', methods=['POST'])
 @login_required
 def read_comment(comment_id):

@@ -5,10 +5,11 @@
 
 {% block content %}
     <div class="page-header">
-        <h2>所有评论
+        <h2>评论数
             <small class="text-muted">{{ pagination.total }}</small>
         </h2>
 
+        <div>
         <ul class="nav nav-pills">
             <li class="nav-item">
                 <a class="nav-link {% if request.args.get('filter', 'unread') == 'unread' %}active{% endif %}"
@@ -23,7 +24,16 @@
                 <a class="nav-link {% if request.args.get('filter') == 'admin' %}active{% endif %}"
                    href="{{ url_for('admin.manage_comment', filter='admin') }}">来自管理员</a>
             </li>
+
+            <li class="nav-item" style="position: absolute; right: 14%;">
+                <form class="inline" method="post"
+                        action="{{ url_for('.read_all_comment', next=request.full_path) }}">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                    <button type="submit" class="btn btn-warning">全部已读</button>
+                </form>
+            </li>
         </ul>
+        </div>
     </div>
 
     {% if comments %}
