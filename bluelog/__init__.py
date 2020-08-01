@@ -103,7 +103,7 @@ def register_commands(app):
     @click.option('--password', prompt=True, hide_input=True,
                   confirmation_prompt=True, help='管理员密码')
     def init(username, password):
-        """初始化博客"""
+        '''初始化博客'''
 
         click.echo('初始化数据库中...')
         db.drop_all()
@@ -112,10 +112,10 @@ def register_commands(app):
         click.echo('创建管理员账户中...')
         admin = Admin(
             username=username,
-            blog_title=f'{username}的博客',
-            blog_sub_title=username,
-            name=username,
-            about=username
+            blog_title=f'{username.capitalize()}的博客',
+            blog_sub_title='天涯路远 | 见字如面',
+            name=username.capitalize(),
+            about=username.capitalize()
         )
         admin.set_password(password)
         db.session.add(admin)

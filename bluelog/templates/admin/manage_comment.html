@@ -5,7 +5,10 @@
 
 {% block content %}
     <div class="page-header">
-        <h2>评论数
+        <h2>
+            {% if request.args.get('filter', 'unread') == 'unread' %}未读评论{% endif %}
+            {% if request.args.get('filter') == 'all' %}全部评论{% endif %}
+            {% if request.args.get('filter') == 'admin' %}来自管理员的评论{% endif %}
             <small class="text-muted">{{ pagination.total }}</small>
         </h2>
 
@@ -18,7 +21,7 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link {% if request.args.get('filter') == 'all' %}active{% endif %}"
-                   href="{{ url_for('admin.manage_comment', filter='all') }}">所有</a>
+                   href="{{ url_for('admin.manage_comment', filter='all') }}">全部</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link {% if request.args.get('filter') == 'admin' %}active{% endif %}"

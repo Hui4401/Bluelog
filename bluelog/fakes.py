@@ -12,11 +12,11 @@ fake = Faker('zh-CN')
 def fake_admin():
     admin = Admin(
         username='admin',
-        blog_title='admin的博客',
-        blog_sub_title="admin",
-        name='admin',
+        blog_title='Admin的博客',
+        blog_sub_title="天涯路远 | 见字如面",
+        name='Admin',
         email = '',
-        about='admin'
+        about='Admin...'
     )
     admin.set_password('admin')
     db.session.add(admin)
@@ -27,7 +27,7 @@ def fake_categories(count=10):
     category = Category(name='默认分类')
     db.session.add(category)
 
-    for i in range(count):
+    for _ in range(count):
         category = Category(name=fake.word())
         db.session.add(category)
         try:
@@ -37,7 +37,7 @@ def fake_categories(count=10):
 
 
 def fake_posts(count=50):
-    for i in range(count):
+    for _ in range(count):
         post = Post(
             title=fake.sentence(),
             body=fake.text(2000),
@@ -49,7 +49,7 @@ def fake_posts(count=50):
 
 
 def fake_comments(count=500):
-    for i in range(count):
+    for _ in range(count):
         comment = Comment(
             author=fake.name(),
             email=fake.email(),
@@ -61,7 +61,7 @@ def fake_comments(count=500):
         db.session.add(comment)
 
     salt = int(count * 0.1)
-    for i in range(salt):
+    for _ in range(salt):
         # 未读评论
         comment = Comment(
             author=fake.name(),
