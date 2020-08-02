@@ -36,7 +36,7 @@
                                   action="{{ url_for('.delete_category', category_id=category.id) }}">
                                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                                 <button type="submit" class="btn btn-danger btn-sm"
-                                        onclick="return confirm('Are you sure?');">删除
+                                        onclick="return confirm('删除分类“{{ category.name }}”？');">删除
                                 </button>
                             </form>
                         {% endif %}

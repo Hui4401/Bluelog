@@ -32,7 +32,7 @@
                         <form class="inline" method="post" action="{{ url_for('.delete_link', link_id=link.id) }}">
                             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                             <button type="submit" class="btn btn-danger btn-sm"
-                                    onclick="return confirm('Are you sure?');">删除
+                                    onclick="return confirm('删除链接“{{ link.name }}”？');">删除
                             </button>
                         </form>
                     </td>

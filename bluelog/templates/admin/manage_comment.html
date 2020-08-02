@@ -77,7 +77,7 @@
                               action="{{ url_for('.delete_comment', comment_id=comment.id, next=request.full_path) }}">
                             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                             <button type="submit" class="btn btn-danger btn-sm"
-                                    onclick="return confirm('Are you sure?');">删除
+                                    onclick="return confirm('删除这条评论？');">删除
                             </button>
                         </form>
                     </td>
