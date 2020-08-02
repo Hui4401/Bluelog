@@ -29,9 +29,8 @@ def create_app(config_name=None):
     register_blueprints(app)
     register_commands(app)
     register_errors(app)
-    register_shell_context(app)
     register_template_context(app)
-    register_request_handlers(app)
+    register_shell_context(app)
     
     return app
 
@@ -132,7 +131,7 @@ def register_commands(app):
     @click.option('--post', default=50, help='Quantity of posts, default is 50.')
     @click.option('--comment', default=500, help='Quantity of comments, default is 500.')
     def forge(category, post, comment):
-        """生成虚拟数据"""
+        '''生成虚拟数据'''
         from bluelog.fakes import fake_admin, fake_categories, fake_posts, fake_comments, fake_links
 
         db.drop_all()
@@ -154,14 +153,3 @@ def register_commands(app):
         fake_links()
 
         click.echo('完成')
-
-
-def register_request_handlers(app):
-    @app.after_request
-    def query_profiler(response):
-        for q in get_debug_queries():
-            if q.duration >= app.config['BLOG_SLOW_QUERY_THRESHOLD']:
-                app.logger.warning(
-                    f'Slow query: Duration: {q.duration}\n Context: {q.context}\nQuery: {q.statement}\n'
-                )
-        return response

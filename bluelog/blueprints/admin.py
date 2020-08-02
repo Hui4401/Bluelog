@@ -6,7 +6,7 @@ from flask_ckeditor import upload_success, upload_fail
 from bluelog.extensions import db
 from bluelog.forms import SettingForm, PostForm, CategoryForm, LinkForm
 from bluelog.models import Post, Category, Comment, Link
-from bluelog.utils import redirect_back, allowed_file
+from bluelog.utils import redirect_back, allowed_file, random_filename
 
 
 admin_bp = Blueprint('admin', __name__)
@@ -247,7 +247,7 @@ def delete_link(link_id):
 
 @admin_bp.route('/uploads/<path:filename>/')
 def get_image(filename):
-    return send_from_directory(current_app.config['BLOG_UPLOAD_PATH'], filename)
+    return send_from_directory(current_app.config['CKEDITOR_UPLOAD_PATH'], filename)
 
 
 @admin_bp.route('/upload/', methods=['POST'])
@@ -255,9 +255,10 @@ def upload_image():
     f = request.files.get('upload')
     if not allowed_file(f.filename):
         return upload_fail('仅允许上传图片！')
-    f.save(os.path.join(current_app.config['BLOG_UPLOAD_PATH'], f.filename))
-    url = url_for('.get_image', filename=f.filename)
-    return upload_success(url, f.filename)
+    new_filename = random_filename(f.filename)
+    f.save(os.path.join(current_app.config['CKEDITOR_UPLOAD_PATH'], new_filename))
+    url = url_for('.get_image', filename=new_filename)
+    return upload_success(url=url)
 
 
 @admin_bp.route('/change-theme/<theme_name>/')

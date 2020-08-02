@@ -23,7 +23,8 @@ class BaseConfig:
     CKEDITOR_SERVE_LOCAL = True
     CKEDITOR_LANGUAGE = 'zh-cn'
     CKEDITOR_ENABLE_CSRF = True
-    CKEDITOR_FILE_UPLOADER = 'admin.upload_image'
+    CKEDITOR_FILE_UPLOADER = 'admin.upload_image'    # 处理图片上传的视图函数的url或端点值 
+    CKEDITOR_UPLOAD_PATH = os.path.join(basedir, 'uploads')
 
     MAIL_SERVER = os.getenv('MAIL_SERVER')
     MAIL_PORT = 465
@@ -36,26 +37,16 @@ class BaseConfig:
     BLOG_MANAGE_POST_PER_PAGE = 15
     BLOG_COMMENT_PER_PAGE = 10
 
-    # ('主题名', '主题文件名')
+    # {'主题名': 'css文件名'}
     BLOG_THEMES = {
         'Perfect Blue': 'perfect_blue', 
         'Black Swan': 'black_swan'
     }
     BLOG_THEME = list(BLOG_THEMES.keys())[0]
-    BLOG_SLOW_QUERY_THRESHOLD = 1
-
-    BLOG_UPLOAD_PATH = os.path.join(basedir, 'uploads')
-    BLOG_ALLOWED_IMAGE_EXTENSIONS = ['png', 'jpg', 'jpeg', 'gif']
 
 
 class DevelopmentConfig(BaseConfig):
     SQLALCHEMY_DATABASE_URI = prefix + os.path.join(basedir, 'data-dev.db')
-
-
-class TestingConfig(BaseConfig):
-    TESTING = True
-    WTF_CSRF_ENABLED = False
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///:memory:'
 
 
 class ProductionConfig(BaseConfig):
@@ -64,6 +55,5 @@ class ProductionConfig(BaseConfig):
 
 config = {
     'development': DevelopmentConfig,
-    'testing': TestingConfig,
     'production': ProductionConfig
 }

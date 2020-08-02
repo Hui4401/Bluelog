@@ -1,5 +1,7 @@
 from urllib.parse import urlparse, urljoin
 from flask import request, redirect, url_for, current_app
+import os
+import uuid
 
 
 def is_safe_url(target):
@@ -18,5 +20,10 @@ def redirect_back(default='blog.index', **kwargs):
 
 
 def allowed_file(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1].lower() in current_app.config['BLOG_ALLOWED_IMAGE_EXTENSIONS']
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ('jpg', 'jpeg', 'png', 'gif')
+
+
+def random_filename(filename):
+    ext = os.path.splitext(filename)[1]
+    new_filename = uuid.uuid4().hex + ext
+    return new_filename
