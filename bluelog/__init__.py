@@ -13,9 +13,6 @@ from bluelog.models import Admin, Post, Category, Comment, Link
 from bluelog.configs import config
 
 
-basedir = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
-
-
 def create_app(config_name=None):
     if config_name is None:
         config_name = os.getenv('FLASK_CONFIG', 'development')
@@ -55,7 +52,13 @@ def register_blueprints(app):
 def register_shell_context(app):
     @app.shell_context_processor
     def make_shell_context():
-        return dict(db=db, Admin=Admin, Post=Post, Category=Category, Comment=Comment)
+        return {
+            'db': db,
+            'Admin': Admin,
+            'Post': Post,
+            'Category': Category,
+            'Comment': Comment
+        }
 
 
 def register_template_context(app):
@@ -68,7 +71,7 @@ def register_template_context(app):
             unread_comments_count = Comment.query.filter_by(read=False).count()
         else:
             unread_comments_count = None
-            
+ 
         return {
             'admin': admin,
             'categories': categories,
@@ -104,17 +107,17 @@ def register_commands(app):
     def init(username, password):
         '''初始化博客'''
 
-        click.echo('初始化数据库中...')
+        click.echo('初始化数据库...')
         db.drop_all()
         db.create_all()
 
-        click.echo('创建管理员账户中...')
+        click.echo('创建管理员账户...')
         admin = Admin(
             username=username,
             blog_title=f'{username.capitalize()}的博客',
             blog_sub_title='天涯路远 | 见字如面',
             name=username.capitalize(),
-            about=username.capitalize()
+            about=username.capitalize() + '...'
         )
         admin.set_password(password)
         db.session.add(admin)
@@ -124,6 +127,11 @@ def register_commands(app):
         db.session.add(category)
 
         db.session.commit()
+
+        if not os.path.exists(config['base'].CKEDITOR_UPLOAD_PATH):
+            click.echo('图像上传路径不存在，创建中...')
+            os.mkdir(config['base'].CKEDITOR_UPLOAD_PATH)
+
         click.echo('完成')
 
     @app.cli.command()
@@ -151,5 +159,9 @@ def register_commands(app):
 
         click.echo('生成链接...')
         fake_links()
+
+        if not os.path.exists(config['base'].CKEDITOR_UPLOAD_PATH):
+            click.echo('图像上传路径不存在，创建中...')
+            os.mkdir(config['base'].CKEDITOR_UPLOAD_PATH)
 
         click.echo('完成')

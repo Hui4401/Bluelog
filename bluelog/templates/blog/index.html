@@ -8,6 +8,7 @@
         <h1 class="display-4">{{ admin.blog_title|default('博客标题') }}</h1>
         <h4 class="text-muted">&nbsp;{{ admin.blog_sub_title|default('博客副标题') }}</h4>
     </div>
+    <hr/>
     <div class="row">
         <div class="col-sm-8">
             {% include 'blog/_posts.html' %}

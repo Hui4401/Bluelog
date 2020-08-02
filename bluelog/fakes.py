@@ -27,7 +27,7 @@ def fake_categories(count=10):
     category = Category(name='默认分类')
     db.session.add(category)
 
-    for _ in range(count):
+    for _ in range(count-1):
         category = Category(name=fake.word())
         db.session.add(category)
         try:
@@ -49,7 +49,7 @@ def fake_posts(count=50):
 
 
 def fake_comments(count=500):
-    for _ in range(count):
+    for _ in range(int(count*0.8)):
         comment = Comment(
             author=fake.name(),
             email=fake.email(),
@@ -60,7 +60,7 @@ def fake_comments(count=500):
         )
         db.session.add(comment)
 
-    salt = int(count * 0.1)
+    salt = int(count*0.1)
     for _ in range(salt):
         # 未读评论
         comment = Comment(

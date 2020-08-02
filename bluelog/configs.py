@@ -54,6 +54,7 @@ class ProductionConfig(BaseConfig):
 
 
 config = {
+    'base': BaseConfig,
     'development': DevelopmentConfig,
     'production': ProductionConfig
 }
