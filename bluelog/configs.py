@@ -4,13 +4,6 @@ import sys
 
 basedir = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 
-# SQLite
-WIN = sys.platform.startswith('win')
-if WIN:
-    prefix = 'sqlite:///'
-else:
-    prefix = 'sqlite:////'
-
 
 class BaseConfig:
     SECRET_KEY = os.getenv('SECRET_KEY', 'dev key')
@@ -46,11 +39,11 @@ class BaseConfig:
 
 
 class DevelopmentConfig(BaseConfig):
-    SQLALCHEMY_DATABASE_URI = prefix + os.path.join(basedir, 'data-dev.db')
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'data-dev.db')
 
 
 class ProductionConfig(BaseConfig):
-    SQLALCHEMY_DATABASE_URI = os.getenv('SQLALCHEMY_DATABASE_URI', prefix + os.path.join(basedir, 'data.db'))
+    SQLALCHEMY_DATABASE_URI = os.getenv('SQLALCHEMY_DATABASE_URI', 'sqlite:///' + os.path.join(basedir, 'data.db'))
 
 
 config = {
