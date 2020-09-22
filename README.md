@@ -28,7 +28,11 @@ MAIL_PASSWORD = 密码
 
 ---
 
-程序默认为开发环境配置，使用sqlite存储数据，生产环境下优先从环境变量读取数据库URI，建议使用更健壮的DBMS如MySQL，这需要在 **.env** 文件中写入数据库URI
+程序默认为开发环境配置，使用sqlite存储数据，生产环境下优先从环境变量读取数据库URI，建议使用更健壮的DBMS如MySQL，这需要在 **.flaskenv** 文件中修改生产环境变量并在 **.env** 文件中写入数据库URI
 ```
+# .flaskenv中
+FLASK_ENV = production
+
+# .env中
 SQLALCHEMY_DATABASE_URI = 数据库名+连接引擎://用户名:密码@数据库路径
 ```
