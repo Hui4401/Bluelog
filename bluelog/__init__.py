@@ -15,7 +15,7 @@ from bluelog.configs import config
 
 def create_app(config_name=None):
     if config_name is None:
-        config_name = os.getenv('FLASK_CONFIG', 'development')
+        config_name = os.getenv('FLASK_ENV', 'development')
 
     app = Flask('bluelog')
     app.config.from_object(config[config_name])
@@ -28,7 +28,7 @@ def create_app(config_name=None):
     register_errors(app)
     register_template_context(app)
     register_shell_context(app)
-    
+
     return app
 
 
@@ -71,7 +71,7 @@ def register_template_context(app):
             unread_comments_count = Comment.query.filter_by(read=False).count()
         else:
             unread_comments_count = None
- 
+
         return {
             'admin': admin,
             'categories': categories,
