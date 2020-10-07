@@ -101,8 +101,8 @@ def register_errors(app):
 def register_commands(app):
 
     @app.cli.command()
-    @click.option('--username', prompt=True, help='管理员用户名')
-    @click.option('--password', prompt=True, hide_input=True,
+    @click.option('--username', '-u', prompt=True, help='管理员用户名')
+    @click.option('--password', '-p', prompt=True, hide_input=True,
                   confirmation_prompt=True, help='管理员密码')
     def init(username, password):
         '''初始化博客'''
