@@ -7,7 +7,7 @@ basedir = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 
 class BaseConfig:
     SECRET_KEY = os.getenv('SECRET_KEY', 'dev key')
-    
+
     DEBUG_TB_INTERCEPT_REDIRECTS = False
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
@@ -16,7 +16,7 @@ class BaseConfig:
     CKEDITOR_SERVE_LOCAL = True
     CKEDITOR_LANGUAGE = 'zh-cn'
     CKEDITOR_ENABLE_CSRF = True
-    CKEDITOR_FILE_UPLOADER = 'admin.upload_image'    # 处理图片上传的视图函数的url或端点值 
+    CKEDITOR_FILE_UPLOADER = 'admin.upload_image'    # 处理图片上传的视图函数的url或端点值
     CKEDITOR_UPLOAD_PATH = os.path.join(basedir, 'uploads')
 
     MAIL_SERVER = os.getenv('MAIL_SERVER')
@@ -32,7 +32,7 @@ class BaseConfig:
 
     # {'主题名': 'css文件名'}
     BLOG_THEMES = {
-        'Perfect Blue': 'perfect_blue', 
+        'Perfect Blue': 'perfect_blue',
         'Black Swan': 'black_swan'
     }
     BLOG_THEME = list(BLOG_THEMES.keys())[0]
