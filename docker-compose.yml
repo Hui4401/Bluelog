@@ -9,6 +9,7 @@
 # |    |----log
 # |----bluelog
 # |    | ...
+# | docker-compose.yml
 
 version: '3'
 
