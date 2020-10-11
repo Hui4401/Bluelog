@@ -32,6 +32,8 @@ services:
         # 链接到mysql容器后数据库连接地址可以写为 mysql:3306
         links:
             - mysql
+        environment:
+            SQLALCHEMY_DATABASE_URI: mysql+pymysql://root:111@mysql:3306/bluelog
         # 暴露端口，只允许被链接容器访问
         expose:
             - "8000"
