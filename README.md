@@ -17,7 +17,6 @@
 
 - 重名名 **example.env** 为 **.env** ，修改其中的smtp账户信息：
 ```
-# 自己的smtp账户信息
 MAIL_SERVER = smtp服务器地址
 MAIL_USERNAME = 自己的smtp账号
 MAIL_PASSWORD = 密码
