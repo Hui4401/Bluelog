@@ -2,7 +2,7 @@
 
 > 《[Flask Web 开发实战](http://helloflask.com/book)》中的实战程序，做了一些修改。
 
-[![atFUAg.png](https://s1.ax1x.com/2020/08/02/atFUAg.png)](https://imgchr.com/i/atFUAg)
+![1.png](https://cdn.jsdelivr.net/gh/Hui4401/picbed/projects/Bluelog/1.png)
 
 ## 如何使用
 
