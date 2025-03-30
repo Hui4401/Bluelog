@@ -2,7 +2,7 @@
 
 > 《[Flask Web 开发实战](http://helloflask.com/book)》中的实战程序，做了一些修改。
 
-![1.png](https://cdn.jsdelivr.net/gh/Hui4401/file/imgbed/project/Bluelog/1.png)
+![1.png](showimgs/1.png)
 
 ## 如何使用
 
